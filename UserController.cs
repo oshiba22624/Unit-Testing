@@ -5,14 +5,14 @@ public class UserController
 
     public void ChangeEmail(int userId, string newEmail)
     {
-        object[] data = _database.GetUserById(userId);
+        object[] data =
+            _database.GetUserById(userId);
 
-        string email = (string)data[1];
-        UserType type = (UserType)data[2];
+        User user =
+            UserFactory.Create(data);
 
-        var user = new User(userId, email, type);
-
-        object[] companyData = _database.GetCompany();
+        object[] companyData =
+            _database.GetCompany();
 
         string companyDomainName =
             (string)companyData[0];

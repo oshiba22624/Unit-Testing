@@ -1,31 +1,32 @@
 public class UserController
 {
-    private readonly Database _database = new Database();
-    private readonly MessageBus _messageBus = new MessageBus();
+    private readonly Database _database =
+        new Database();
 
-    public void ChangeEmail(int userId, string newEmail)
+    private readonly MessageBus _messageBus =
+        new MessageBus();
+
+    public void ChangeEmail(
+        int userId,
+        string newEmail)
     {
-        object[] data =
+        object[] userData =
             _database.GetUserById(userId);
 
         User user =
-            UserFactory.Create(data);
+            UserFactory.Create(userData);
 
         object[] companyData =
             _database.GetCompany();
 
-        string companyDomainName =
-            (string)companyData[0];
+        Company company =
+            CompanyFactory.Create(companyData);
 
-        int numberOfEmployees =
-            (int)companyData[1];
-
-        int newNumberOfEmployees = user.ChangeEmail(
+        user.ChangeEmail(
             newEmail,
-            companyDomainName,
-            numberOfEmployees);
+            company);
 
-        _database.SaveCompany(newNumberOfEmployees);
+        _database.SaveCompany(company);
         _database.SaveUser(user);
 
         _messageBus.SendEmailChangedMessage(

@@ -3,6 +3,14 @@ public class Company
     public string DomainName { get; private set; }
     public int NumberOfEmployees { get; private set; }
 
+    public Company(
+        string domainName,
+        int numberOfEmployees)
+    {
+        DomainName = domainName;
+        NumberOfEmployees = numberOfEmployees;
+    }
+
     public void ChangeNumberOfEmployees(int delta)
     {
         Precondition.Requires(

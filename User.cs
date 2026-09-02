@@ -14,19 +14,15 @@ public class User
         Type = type;
     }
 
-    public int ChangeEmail(
+    public void ChangeEmail(
         string newEmail,
-        string companyDomainName,
-        int numberOfEmployees)
+        Company company)
     {
         if (Email == newEmail)
-            return numberOfEmployees;
-
-        string emailDomain =
-            newEmail.Split('@')[1];
+            return;
 
         bool isEmailCorporate =
-            emailDomain == companyDomainName;
+            company.IsEmailCorporate(newEmail);
 
         UserType newType = isEmailCorporate
             ? UserType.Employee
@@ -37,21 +33,10 @@ public class User
             int delta =
                 newType == UserType.Employee ? 1 : -1;
 
-            int newNumber =
-                numberOfEmployees + delta;
-
-            numberOfEmployees = newNumber;
+            company.ChangeNumberOfEmployees(delta);
         }
 
         Email = newEmail;
         Type = newType;
-
-        return numberOfEmployees;
     }
-}
-
-public enum UserType
-{
-    Customer = 1,
-    Employee = 2
 }
